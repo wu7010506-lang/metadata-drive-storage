@@ -5,6 +5,77 @@ encoded payloads can be stored reliably in legal Google Drive API v3 metadata
 fields. It is **not** a production storage system, an “unlimited Drive” product,
 or a quota/rate-limit bypass.
 
+## Quickstart
+
+### Option A: 30-Second Offline Verification (No Google Cloud Credentials Required)
+
+You can verify the full compression/chunking pipeline, SQLite manifest integrity, fault-injection suites (**346 pytest checks**), and bounded-memory 2 GiB streaming locally without any Google Drive account:
+
+**macOS / Linux (Bash / Zsh):**
+```bash
+git clone https://github.com/wu7010506-lang/metadata-drive-storage.git
+cd metadata-drive-storage
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+
+# Run all 346 offline unit & fault-injection tests
+pytest -q
+
+# Run offline 2 GiB streaming compression + SHA-256 restoration benchmark
+python scripts/benchmark_streaming.py --size-mib 2048
+```
+
+**Windows (PowerShell):**
+```powershell
+git clone https://github.com/wu7010506-lang/metadata-drive-storage.git
+cd metadata-drive-storage
+py -3.11 -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+
+# Run all 346 offline unit & fault-injection tests
+pytest -q
+
+# Run offline 2 GiB streaming compression + SHA-256 restoration benchmark
+python scripts/benchmark_streaming.py --size-mib 2048
+```
+
+### Option B: End-to-End Google Drive Usage (Web UI & CLI in 4 Steps)
+
+1. **Create a Service Account & Shared Drive Folder**:
+   - In [Google Cloud Console](https://console.cloud.google.com/), enable the **Google Drive API** and create a Service Account JSON key (save it outside the repo or at `credentials/service-account.json`).
+   - Share a target Google Drive folder (preferably in a Shared Drive) with the Service Account email (`Can add files` / Editor) and copy the folder ID from its URL.
+2. **Configure `.env`** (`cp .env.example .env` on macOS/Linux or `Copy-Item .env.example .env` on Windows):
+   ```dotenv
+   GOOGLE_APPLICATION_CREDENTIALS=credentials/service-account.json
+   GOOGLE_DRIVE_FOLDER_ID=your_shared_drive_folder_id
+
+   # Empirically measured 64x8 profile (-66.3% upload time on 513 chunks; see docs/performance-20261022.md)
+   UPLOAD_BACKEND=description
+   DESCRIPTION_SAFE_PAYLOAD_BYTES=25000
+   STORAGE_ENCODING=base64url
+   UPLOAD_WORKERS=64
+   UPLOAD_BATCH_SIZE=8
+   DOWNLOAD_WORKERS=16
+   ```
+3. **Launch the Local Web UI** (drag-and-drop upload up to 10 GiB + 1-click SHA-256 verified restore):
+   ```bash
+   python scripts/run_ui.py
+   # Open http://127.0.0.1:8765 in your browser
+   ```
+4. **Or Use the CLI Directly**:
+   ```bash
+   # Probe exact metadata byte limits for your environment
+   python scripts/probe_metadata.py --backend description --max-bytes 32768
+
+   # Compress, chunk into 0-byte Drive objects, and record SQLite manifest
+   python scripts/upload_file.py path/to/input.bin
+
+   # Reassemble chunks and atomically write output after full SHA-256 verification
+   python scripts/download_file.py <DATASET_ID> path/to/restored.bin
+   ```
+
 ## Current milestone
 
 Milestone 1 implements:
