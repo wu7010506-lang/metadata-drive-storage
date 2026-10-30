@@ -1,0 +1,8 @@
+{"repeat": 1, "method": "legacy", "seconds": 0.262837, "connections": 782, "declared_chunks": 100000, "stored_rows": 2, "window": 128, "verified": true, "index_only": true}
+{"repeat": 1, "method": "keyset", "seconds": 0.001521, "connections": 2, "declared_chunks": 100000, "stored_rows": 2, "window": 128, "verified": true, "index_only": true}
+{"repeat": 2, "method": "keyset", "seconds": 0.001165, "connections": 2, "declared_chunks": 100000, "stored_rows": 2, "window": 128, "verified": true, "index_only": true}
+{"repeat": 2, "method": "legacy", "seconds": 0.276305, "connections": 782, "declared_chunks": 100000, "stored_rows": 2, "window": 128, "verified": true, "index_only": true}
+{"repeat": 3, "method": "legacy", "seconds": 0.255003, "connections": 782, "declared_chunks": 100000, "stored_rows": 2, "window": 128, "verified": true, "index_only": true}
+{"repeat": 3, "method": "keyset", "seconds": 0.001019, "connections": 2, "declared_chunks": 100000, "stored_rows": 2, "window": 128, "verified": true, "index_only": true}
+{"repeat": 4, "method": "keyset", "seconds": 0.001303, "connections": 2, "declared_chunks": 100000, "stored_rows": 2, "window": 128, "verified": true, "index_only": true}
+{"repeat": 4, "method": "legacy", "seconds": 0.254506, "connections": 782, "declared_chunks": 100000, "stored_rows": 2, "window": 128, "verified": true, "index_only": true}

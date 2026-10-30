@@ -1,0 +1,15 @@
+.env
+*.json
+credentials/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.db
+venv/
+.venv/
+.pytest_cache/
+.pytest-temp*/
+.mypy_cache/
+.ruff_cache/
+data/metadata-benchmark-*/
+

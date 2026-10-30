@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Google Drive metadata storage 本機上傳測試工具">
+  <title>Metadata Drive Lab</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">MD</span><div><h1>Metadata Drive Lab</h1><p>本機研究工作台</p></div></div>
+      <div class="connection" id="connection" aria-live="polite"><span class="status-dot"></span><span>正在檢查連線…</span></div>
+    </header>
+
+    <section class="workspace" aria-labelledby="upload-title">
+      <div class="intro">
+        <p class="eyebrow">METADATA · ZERO-CONTENT OBJECTS</p>
+        <h2 id="upload-title">選一個檔案，測試 metadata 上傳</h2>
+        <p>檔案先在本機壓縮、編碼並切分；Drive 只建立沒有內容的檔案，資料寫入所選的 metadata 欄位。</p>
+      </div>
+      <div class="layout">
+        <section class="upload-card">
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="選擇或拖放檔案">
+            <input id="file-input" type="file" hidden>
+            <div class="upload-icon" aria-hidden="true">↑</div>
+            <strong id="drop-title">拖放檔案到這裡</strong>
+            <span>或按一下從電腦選擇</span>
+            <div class="file-chip" id="file-chip" hidden><span id="file-name"></span><span id="file-size"></span></div>
+          </div>
+          <div class="upload-meta">
+            <div><span>承載欄位</span><select id="backend-select" aria-label="選擇 payload 欄位"><option value="description">description</option><option value="name">name</option><option value="combined">name＋description（實驗）</option></select></div>
+            <div><span>資料編碼</span><select id="encoding-select" aria-label="選擇資料編碼"><option value="base64url">Base64URL</option><option value="base85">Base85（實驗，非速度保證）</option></select></div>
+            <div><span>安全 chunk</span><strong id="chunk-size">—</strong></div>
+            <div><span>檔案上限</span><strong id="upload-limit">—</strong></div>
+          </div>
+          <button class="primary" id="upload-button" disabled>開始上傳</button>
+          <div class="progress-panel" id="progress-panel" hidden aria-live="polite">
+            <div class="progress-heading"><strong id="progress-label">準備中</strong><span id="progress-value">0%</span></div>
+            <div class="progress-track"><div id="progress-bar"></div></div>
+            <p id="progress-detail">正在準備檔案…</p>
+          </div>
+          <section class="result" id="upload-timings" hidden aria-label="上傳階段耗時">
+            <strong id="upload-timing-summary">上傳階段耗時</strong>
+            <dl id="upload-timing-values"></dl>
+            <p>伺服器端計時；Drive 寫入階段包含切塊、索引、網路等待與重試，不等於純 API 處理時間。0.00 秒可能是尚未執行或耗時很短。</p>
+          </section>
+          <div class="result" id="result" hidden aria-live="polite"></div>
+        </section>
+
+        <aside class="notes">
+          <div class="metric"><span>目前目標</span><strong id="folder-name">—</strong></div>
+          <div class="rule"></div>
+          <h3>這次測試會做什麼</h3>
+          <ol>
+            <li><span>01</span>讀取並壓縮本機檔案</li>
+            <li><span>02</span>所選編碼與自動切分</li>
+            <li><span>03</span>建立多個零內容 Drive 檔案</li>
+            <li><span>04</span>寫入 SQLite 索引與 SHA-256</li>
+          </ol>
+          <p class="security">金鑰只由本機 Python 後端讀取，不會傳入瀏覽器。</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="history" aria-labelledby="history-title">
+      <div class="section-heading"><div><p class="eyebrow">LOCAL INDEX</p><h2 id="history-title">最近資料集</h2></div><button class="secondary" id="refresh-button">重新整理</button></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>檔案</th><th>狀態</th><th>原始大小</th><th>壓縮後</th><th>Chunks</th><th>Dataset ID</th><th></th></tr></thead>
+          <tbody id="dataset-rows"><tr><td colspan="7" class="empty">正在載入…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script src="/static/api-guard.js"></script>
+  <script src="/static/upload-timings.js?v=20261022"></script>
+  <script src="/static/app.js?v=20261022-timings"></script>
+  <script src="/static/download-stream.js"></script>
+</body>
+</html>

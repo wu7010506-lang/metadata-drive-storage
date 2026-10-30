@@ -1,0 +1,6 @@
+{"event": "reserved", "file_id": "1giQUjTV9Y8yD0ltSHroMbj3AmVfxxlt6", "size": 25000, "run_id": "7e2dce6e-d1fd-40e8-a5a5-0f9a4c5d2bab"}
+{"event": "capacity_verified", "file_id": "1giQUjTV9Y8yD0ltSHroMbj3AmVfxxlt6", "size": 25000, "run_id": "7e2dce6e-d1fd-40e8-a5a5-0f9a4c5d2bab"}
+{"event": "removed", "file_id": "1giQUjTV9Y8yD0ltSHroMbj3AmVfxxlt6", "size": 25000, "run_id": "7e2dce6e-d1fd-40e8-a5a5-0f9a4c5d2bab"}
+{"event": "reserved", "file_id": "1xvyr-_Cxjmcx4tQxdarcb_4CE3e07NbD", "size": 32768, "run_id": "7e2dce6e-d1fd-40e8-a5a5-0f9a4c5d2bab"}
+{"event": "capacity_rejected", "file_id": "1xvyr-_Cxjmcx4tQxdarcb_4CE3e07NbD", "size": 32768, "status": 400, "run_id": "7e2dce6e-d1fd-40e8-a5a5-0f9a4c5d2bab"}
+{"event": "absent", "file_id": "1xvyr-_Cxjmcx4tQxdarcb_4CE3e07NbD", "size": 32768, "run_id": "7e2dce6e-d1fd-40e8-a5a5-0f9a4c5d2bab"}
